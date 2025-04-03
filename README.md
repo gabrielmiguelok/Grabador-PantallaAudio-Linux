@@ -1,4 +1,6 @@
-# Grabador-PantallaAudio-Linux
+# Grabador Pantalla, Ventanas y Cámara con Audio en Linux
+
+[![Licencia MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 ## Índice
 
@@ -6,45 +8,47 @@
 2. [Características](#características)
 3. [Requisitos](#requisitos)
 4. [Instalación](#instalación)
-    - [Instalar Dependencias de Python](#instalar-dependencias-de-python)
-    - [Instalar Dependencias del Sistema](#instalar-dependencias-del-sistema)
+    - [Dependencias de Python](#dependencias-de-python)
+    - [Dependencias del Sistema](#dependencias-del-sistema)
 5. [Uso](#uso)
 6. [Contribuciones](#contribuciones)
+7. [Contacto](#contacto)
 
 ---
 
 ## Descripción
 
-¿Alguna vez quisiste **grabar la pantalla de tu escritorio en Linux** y **mezclar simultáneamente** todo el audio (micrófonos, música, aplicaciones, etc.) en un solo archivo? Este proyecto **Open-Source** es la solución que estabas buscando.
+Esta aplicación permite **grabar la pantalla completa, una ventana específica o tu cámara web en Linux**, capturando y combinando simultáneamente **todas las fuentes de audio** del sistema (micrófonos, aplicaciones, música, etc.) en un único archivo multimedia, utilizando **ffmpeg** y **PulseAudio**.
 
-Este script en Python configura automáticamente un **sink nulo** ("combined") y conecta todas las fuentes de audio (micrófonos y monitores) para capturarlas en un **solo stream**. Luego, utiliza **ffmpeg** para grabar la pantalla junto al audio combinado, ahorrándote tiempo y simplificando el proceso de grabación.
+El proyecto se encarga automáticamente de configurar un sink de audio combinado, simplificando considerablemente el proceso de captura de audio y vídeo.
 
-> **Repositorio**: [Grabador-PantallaAudio-Linux](https://github.com/gabrielmiguelok/Grabador-PantallaAudio-Linux)
-> *(MIT License)*
+> **Repositorio oficial**: [Grabador-PantallaAudio-Linux](https://github.com/gabrielmiguelok/Grabador-PantallaAudio-Linux)
+> Autor: Gabriel Hércules Miguel (Licencia MIT)
 
 ---
 
 ## Características
 
-1. **Configuración Automática de PulseAudio**
-    - Crea un **sink nulo** y **loopbacks** necesarios para dirigir todas las fuentes de audio a un mismo canal de grabación.
-    - Evita la configuración manual de cada dispositivo.
+- ✅ **Grabación versátil**:
+  - Pantalla completa con audio.
+  - Pantalla completa con audio y cámara web sin audio.
+  - Ventana específica con audio.
+  - Ventana específica con audio más cámara web sin audio.
 
-2. **Grabación Completa con `ffmpeg`**
-    - Captura la **pantalla** en la resolución predeterminada (o especificada).
-    - Mezcla en tiempo real **todas** las fuentes de audio en un **solo archivo**.
+- ✅ **Configuración automática de PulseAudio**:
+  - Creación de un **sink nulo** ("combined") que mezcla todas las fuentes.
+  - Loopbacks automáticos desde fuentes de audio hacia el sink combinado.
 
-3. **Interfaz Interactiva**
-    - Ejecuta el script y responde algunas preguntas mínimas (FPS, nombre de archivo).
-    - Limpia automáticamente los módulos de audio al **finalizar** la grabación.
+- ✅ **Sencillez y facilidad de uso**:
+  - Interfaz interactiva simple (CLI).
+  - Configuración rápida (FPS, nombre de archivo y modo de grabación).
 
-4. **Optimizado para Linux**
-    - Utiliza `pactl` para interactuar con PulseAudio (o PipeWire con compatibilidad de Pulse).
-    - Se basa en `ffmpeg` para la codificación en h264 + AAC en un contenedor `.mkv`.
+- ✅ **Limpieza automática**:
+  - Se restauran automáticamente las configuraciones originales de PulseAudio al finalizar la grabación.
 
-5. **Fácil Detención y Post-proceso**
-    - Detén la grabación en cualquier momento con Enter (o `Ctrl+C`).
-    - El script limpia automáticamente la configuración de audio para no **romper** tu entorno de sonido.
+- ✅ **Optimizado para Linux**:
+  - Usa `pactl` para PulseAudio o PipeWire con soporte de PulseAudio.
+  - Usa `ffmpeg` para codificación (video en h264, audio AAC).
 
 ---
 
@@ -52,104 +56,108 @@ Este script en Python configura automáticamente un **sink nulo** ("combined") y
 
 ### Dependencias de Python
 
-- **Python 3** (versión >= 3.7)
+- **Python 3.7+**
 - **python-xlib**
 
 ### Dependencias del Sistema
 
 - **ffmpeg**
-- **pulseaudio-utils** (o **pipewire-pulse**, según tu distribución)
+- **pulseaudio-utils** (o **pipewire-pulse** compatible con pactl)
+- **wmctrl** (opcional pero recomendado para grabar ventanas específicas)
 
 ---
 
 ## Instalación
 
-### 1. Clonar el Repositorio
+### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/tu-usuario/Grabador-PantallaAudio-Linux.git
+git clone https://github.com/gabrielmiguelok/Grabador-PantallaAudio-Linux.git
 cd Grabador-PantallaAudio-Linux
+```
 
-### 2. Crear y Activar un Entorno Virtual (Opcional pero Recomendado)
+### 2. Crear y activar entorno virtual (opcional)
 
 ```bash
 python3 -m venv venv
 source venv/bin/activate
 ```
 
-### 3. Instalar Dependencias de Python
-
-Se proporciona un archivo `requirements.txt` para instalar las dependencias necesarias con `pip`.
+### 3. Instalar dependencias de Python
 
 ```bash
-p install -r requirements.txt
+pip install -r requirements.txt
 ```
 
-### 4. Instalar Dependencias del Sistema
+### 4. Instalar dependencias del sistema
 
-### Para **Ubuntu/Debian**
+**Ubuntu/Debian:**
 
 ```bash
 sudo apt-get update
-sudo apt-get install ffmpeg pulseaudio-utils
+sudo apt-get install ffmpeg pulseaudio-utils wmctrl
 ```
 
-### Para **Arch/Manjaro**
+**Arch/Manjaro:**
 
 ```bash
-sudo pacman -S ffmpeg pipewire-pulse
+sudo pacman -S ffmpeg pipewire-pulse wmctrl
 ```
 
-### Para Otras Distribuciones
+**Otras distribuciones:**
 
-Utiliza el gestor de paquetes de tu distribución para instalar `ffmpeg` y `pulseaudio-utils` o `pipewire-pulse`.
+Utiliza el gestor de paquetes de tu distribución para instalar `ffmpeg`, `pulseaudio-utils` o `pipewire-pulse`, y `wmctrl`.
 
 ---
 
 ## Uso
 
-1. **Ejecuta el Script**
+### Ejecutar el script
 
-    Asegúrate de estar en el directorio del proyecto o haber instalado el script globalmente si seguiste la opción de `pyproject.toml`.
+```bash
+python main.py
+```
 
-    ```bash
-    python screen_audio_recorder.py
-    ```
+### Seleccionar opciones
 
-2. **Proporciona la Información Solicitada**
-    - **Tasa de fotogramas (FPS)**: Ingresa el valor deseado o presiona Enter para usar el predeterminado (30 FPS).
-    - **Nombre de archivo de salida**: Ingresa el nombre deseado sin extensión o presiona Enter para usar el predeterminado (`grabacion`).
-3. **Inicia la Grabación**
+- **FPS** (por defecto 30): Introduce la tasa de fotogramas deseada.
+- **Nombre del archivo** (por defecto `grabacion`): Introduce un nombre base para los archivos generados.
+- **Modo de grabación**:
+  - **1**: Pantalla completa con audio.
+  - **2**: Pantalla completa con audio + cámara (sin audio).
+  - **3**: Ventana específica con audio.
+  - **4**: Ventana específica con audio + cámara (sin audio).
 
-    El script configurará automáticamente los módulos de PulseAudio y comenzará a grabar la pantalla junto con todo el audio combinado.
+### Iniciar y detener grabación
 
-4. **Detén la Grabación**
-    - Presiona **Enter** en la terminal donde se está ejecutando el script.
-    - O presiona `Ctrl+C` para detener la grabación de manera forzada.
-5. **Archivo de Salida**
-
-    El archivo de grabación se guardará en el directorio actual con el nombre especificado y la extensión `.mkv`.
-
+- Para detener la grabación, presiona **Enter** o usa `Ctrl+C`.
+- Los archivos resultantes se guardan en la carpeta del proyecto:
+  - Ejemplo:
+    - `grabacion_pantalla.mkv`
+    - `grabacion_camara.mkv`
+    - `grabacion_ventana.mkv`
 
 ---
 
 ## Contribuciones
 
-¡Contribuciones son bienvenidas! Si deseas mejorar este proyecto, por favor sigue estos pasos:
+¡Las contribuciones son bienvenidas! Para contribuir:
 
-1. **Fork** el repositorio.
-2. Crea una nueva **rama** (`git checkout -b feature/nueva-característica`).
-3. **Commit** tus cambios (`git commit -m 'Añadir nueva característica'`).
-4. **Push** a la rama (`git push origin feature/nueva-característica`).
-5. Abre un **Pull Request**.
+1. Haz un **fork** del repositorio.
+2. Crea una rama nueva (`git checkout -b feature/tu-caracteristica`).
+3. Realiza tus cambios y haz **commit** (`git commit -m "Agregar característica X"`).
+4. Haz **push** de tu rama (`git push origin feature/tu-caracteristica`).
+5. Abre un **Pull Request** en GitHub.
 
-Asegúrate de seguir las mejores prácticas de código y de documentación.
-
+Asegúrate de mantener buenas prácticas de código y documentar claramente tus cambios.
 
 ---
 
 ## Contacto
 
-Si tienes alguna pregunta o sugerencia, no dudes en [abrir un issue](https://github.com/gabrielmiguelok/Grabador-PantallaAudio-Linux) en el repositorio.
+Si tienes alguna sugerencia, problema o duda, abre un **issue** en el repositorio:
 
-¡Feliz grabación!
+[👉 Abrir un Issue](https://github.com/gabrielmiguelok/Grabador-PantallaAudio-Linux/issues)
+
+¡Disfruta grabando!
+
