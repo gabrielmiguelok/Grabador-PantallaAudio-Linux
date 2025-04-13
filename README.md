@@ -31,24 +31,27 @@ El proyecto se encarga automáticamente de configurar un sink de audio combinado
 
 - ✅ **Grabación versátil**:
   - Pantalla completa con audio.
-  - Pantalla completa con audio y cámara web sin audio.
+  - Pantalla completa con audio y cámara web (sin audio).
   - Ventana específica con audio.
-  - Ventana específica con audio más cámara web sin audio.
+  - Ventana específica con audio y cámara web (sin audio).
 
 - ✅ **Configuración automática de PulseAudio**:
-  - Creación de un **sink nulo** ("combined") que mezcla todas las fuentes.
-  - Loopbacks automáticos desde fuentes de audio hacia el sink combinado.
+  - Creación automática de un **sink nulo combinado** (`combined`).
+  - Conexión automática de todas las fuentes y monitores disponibles al sink combinado.
 
-- ✅ **Sencillez y facilidad de uso**:
-  - Interfaz interactiva simple (CLI).
-  - Configuración rápida (FPS, nombre de archivo y modo de grabación).
+- ✅ **Gestión sencilla de grabaciones**:
+  - Organización automática de grabaciones por fecha.
+  - Generación automática de nombres únicos para evitar sobrescribir archivos existentes.
+
+- ✅ **Interfaz interactiva simple (CLI)**:
+  - Configuración rápida del nombre de archivo y modo de grabación.
 
 - ✅ **Limpieza automática**:
-  - Se restauran automáticamente las configuraciones originales de PulseAudio al finalizar la grabación.
+  - Restauración de las configuraciones originales de PulseAudio al finalizar.
 
 - ✅ **Optimizado para Linux**:
-  - Usa `pactl` para PulseAudio o PipeWire con soporte de PulseAudio.
-  - Usa `ffmpeg` para codificación (video en h264, audio AAC).
+  - Compatible con PulseAudio o PipeWire (con soporte PulseAudio).
+  - Utiliza `ffmpeg` con codificación optimizada (h264 vídeo, AAC audio).
 
 ---
 
@@ -118,24 +121,26 @@ Utiliza el gestor de paquetes de tu distribución para instalar `ffmpeg`, `pulse
 python main.py
 ```
 
-### Seleccionar opciones
+### Opciones interactivas
 
-- **FPS** (por defecto 30): Introduce la tasa de fotogramas deseada.
-- **Nombre del archivo** (por defecto `grabacion`): Introduce un nombre base para los archivos generados.
+- **Nombre del archivo** (predeterminado `grabacion`): Define el nombre base para los archivos generados.
 - **Modo de grabación**:
   - **1**: Pantalla completa con audio.
-  - **2**: Pantalla completa con audio + cámara (sin audio).
+  - **2**: Pantalla completa con audio + cámara web (sin audio).
   - **3**: Ventana específica con audio.
-  - **4**: Ventana específica con audio + cámara (sin audio).
+  - **4**: Ventana específica con audio + cámara web (sin audio).
 
 ### Iniciar y detener grabación
 
-- Para detener la grabación, presiona **Enter** o usa `Ctrl+C`.
-- Los archivos resultantes se guardan en la carpeta del proyecto:
-  - Ejemplo:
-    - `grabacion_pantalla.mkv`
-    - `grabacion_camara.mkv`
-    - `grabacion_ventana.mkv`
+- Presiona **Enter** o `Ctrl+C` para detener la grabación.
+- Las grabaciones se guardan automáticamente en carpetas organizadas por fecha dentro del directorio `grabaciones`:
+
+Ejemplo:
+```
+grabaciones/13-04-2025/grabacion_pantalla.mkv
+grabaciones/13-04-2025/grabacion_camara.mkv
+grabaciones/13-04-2025/grabacion_ventana.mkv
+```
 
 ---
 
@@ -149,7 +154,7 @@ python main.py
 4. Haz **push** de tu rama (`git push origin feature/tu-caracteristica`).
 5. Abre un **Pull Request** en GitHub.
 
-Asegúrate de mantener buenas prácticas de código y documentar claramente tus cambios.
+Mantén buenas prácticas de código y documenta tus cambios claramente.
 
 ---
 
@@ -160,4 +165,3 @@ Si tienes alguna sugerencia, problema o duda, abre un **issue** en el repositori
 [👉 Abrir un Issue](https://github.com/gabrielmiguelok/Grabador-PantallaAudio-Linux/issues)
 
 ¡Disfruta grabando!
-

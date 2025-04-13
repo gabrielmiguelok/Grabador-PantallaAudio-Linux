@@ -1,36 +1,21 @@
-#!/usr/bin/env python3
-"""
-Módulo para la interacción con el usuario.
-
-Solicita información:
-- FPS deseados.
-- Nombre base del archivo de salida.
-- Modo de grabación (pantalla, pantalla+cámara, ventana, ventana+cámara).
-"""
+# user_input.py
+#
+# Módulo para la interacción con el usuario.
+# Solicita:
+# - Nombre base de archivo
+# - Modo de grabación (pantalla, pantalla+cámara, ventana, ventana+cámara).
+#
+# El FPS ya no se pregunta; se toma por defecto de config.
 
 def solicitar_opciones_usuario():
-    """
-    Solicita al usuario:
-      - FPS (valor por defecto 30).
-      - Nombre base del archivo de salida (por defecto 'grabacion').
-      - Modo de grabación:
-          1) Pantalla (con audio)
-          2) Pantalla (con audio) + cámara (sin audio)
-          3) Ventana específica (con audio)
-          4) Ventana específica (con audio) + cámara (sin audio)
-
-    Retorna una tupla: (fps, base_filename, modo).
-    """
-    while True:
-        fps_input = input("Ingresa la tasa de fotogramas (FPS, predeterminado 30): ").strip()
-        if not fps_input:
-            fps = 30
-            break
-        try:
-            fps = int(fps_input)
-            break
-        except ValueError:
-            print("Error: Por favor ingresa un número entero válido.")
+    # Pide al usuario el nombre base (sin extensión).
+    # Modo de grabación:
+    #   1) Pantalla
+    #   2) Pantalla + Cámara
+    #   3) Ventana
+    #   4) Ventana + Cámara
+    #
+    # Retorna (base_filename, modo).
 
     base_filename_input = input(
         "Nombre base de archivo de salida (sin extensión, predeterminado 'grabacion'): "
@@ -51,4 +36,4 @@ def solicitar_opciones_usuario():
         else:
             print("Opción inválida. Debe ser 1, 2, 3 o 4.")
 
-    return fps, base_filename, modo
+    return base_filename, modo
